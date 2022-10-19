@@ -14,7 +14,7 @@ public class ExceptionHttpTranslator {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity businessException(String path, final CustomException e) {
-        return new ResponseEntity(new ExceptionDto().setErrormessage(e.getMessage()).setPath(path), e.getException().getStatus());
+        return new ResponseEntity(new ExceptionDto().setErrormessage(e.getMessage()).setPath(path), null, e.getException().getRawStatus());
     }
 
 }

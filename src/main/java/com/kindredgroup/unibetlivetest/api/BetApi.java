@@ -34,12 +34,12 @@ public class BetApi implements BetsApi {
     
     public ResponseEntity<Void> addBet(BetRequest betRequest) {
         try {
-            if (betRequest.getMise().signum() == -1 || betRequest.getMise().signum() == 0 || betRequest.getMise() == null) {
-                throw new CustomException(betRequest.getMise().signum() == 0 ? "La mise est égale à 0" : betRequest.getMise().signum() == -1 ? "La mise est négative" : "La mise est null", ExceptionType.MISE_IMPOSSIBLE);
+            if (betRequest.getMise() == null || betRequest.getMise().signum() == -1 || betRequest.getMise().signum() == 0) {
+                throw new CustomException(betRequest.getMise() == null ? "La mise est null": betRequest.getMise().signum() == -1 ? "La mise est négative" : "La mise est égale à 0"  , ExceptionType.MISE_IMPOSSIBLE);
             }
 
-            if (betRequest.getCote().signum() == 0 || betRequest.getCote().compareTo(new BigDecimal(1)) == -1 || betRequest.getCote() == null) {
-                throw new CustomException(betRequest.getCote().signum() == 0 ? "La cote est égale à 0" : betRequest.getCote().compareTo(new BigDecimal(1)) == -1 ?"La cote est inférieure à 1" : "la cote est null", ExceptionType.COTE_IMPOSSIBLE);
+            if (betRequest.getCote() == null || betRequest.getCote().signum() == 0 || betRequest.getCote().compareTo(new BigDecimal(1)) == -1) {
+                throw new CustomException(betRequest.getCote() == null ? "la cote est null": betRequest.getCote().compareTo(new BigDecimal(1)) == -1 ?"La cote est inférieure à 1" : "La cote est égale à 0"  , ExceptionType.COTE_IMPOSSIBLE);
             }           
 
             betService.buildBet(betRequest);

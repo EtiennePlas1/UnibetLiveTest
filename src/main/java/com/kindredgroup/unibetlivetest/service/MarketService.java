@@ -12,19 +12,12 @@ import com.kindredgroup.unibetlivetest.repository.MarketRepository;
 
 @Service
 public class MarketService {
-
-    @Resource
-    private MarketRepository marketRepository;
     
     @Resource
     private BetService betService;
     
     @Resource
     private SelectionService selectionService;
-    
-    public List<Market> getAllMarkets(){
-        return marketRepository.findAll();
-    }
     
     /** 
      * 1. récupération de toutes les séléctions fermées ayant
