@@ -21,7 +21,7 @@ public class MarketBatch {
     private MarketService marketService;
     
     @Scheduled(fixedRate = 5000)    
-    void payerLesParisBatch() {
+    void payBetsBatch() {
         log.info("paris payés sur {} sélections", marketService.processAllClosedSelections());
     }
      

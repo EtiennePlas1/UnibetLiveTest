@@ -26,6 +26,12 @@ public class MarketService {
         return marketRepository.findAll();
     }
     
+    /** 
+     * 1. récupération de toutes les séléctions fermées ayant
+     *    au moins un pari qui n'est ni perdu ni gagné
+     *    
+     * 2. paiement des paris par sélection
+     */
     public int processAllClosedSelections() {
         List<Selection> closedSelections = selectionService.getClosedSelectionsWithBets();        
         closedSelections.forEach(s -> betService.payBets(s));

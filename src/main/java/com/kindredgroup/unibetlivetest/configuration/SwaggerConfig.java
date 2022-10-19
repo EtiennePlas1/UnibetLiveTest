@@ -18,6 +18,6 @@ public class SwaggerConfig {
                 .info(new Info().title("UnibestLiveTest API"))
                 .externalDocs(new ExternalDocumentation()
                 .description("UnibetLiveTest Documentation")
-                .url("https://springshop.wiki.github.org/docs"));
+                .url("https://github.com/EtiennePlas1/UnibetLiveTest"));
     }
 }

@@ -43,6 +43,16 @@ public class BetService {
     @Resource
     private CustomerService customerService;
     
+    /** 
+     * 1. Récupère la séléction et le client associés au pari pris 
+     * 
+     * 2. Vérifie la cote et si la sélection est ouverte, 
+     * 	  puis si le client a les fonds suffisant et s'il n'a pas déjà parié sur cette sélection     * 
+     * 
+     * 3. Insère le client et le nouveau pari en base
+     * 
+     * @throws CustomException 
+     */
     public void buildBet(BetRequest betRequest) {
         Selection selection = selectionService.findById(betRequest.getSelectionId());        
 
@@ -70,6 +80,7 @@ public class BetService {
         
     }
     
+    //Insertion du client et du pari en base sous forme  de transaction pour rollback en cas de bug.
     @Transactional
     private void insertBet(BetRequest betRequest, Selection selection, Customer customer) {        
         customer.setBalance(customer.getBalance().subtract(betRequest.getMise()));
@@ -78,6 +89,16 @@ public class BetService {
         customerService.saveCustomer(customer); 
     }
     
+    /** 
+     * 1. Récupération des paris non résolus d'une sélection
+     * 
+     * 2. Assocation par paire client-pari
+     * 
+     * 3. Paiement des clients en fonction du résultat de la sélection
+     * 
+     * 4. Sauvegarde de la paire client-pari en cas de victoire
+     * 	  ou uniquement du pari en cas de défaite
+     */    
     public void payBets(Selection selection) {
         List<Bet> unpaidBets = betRepository.getBySelectionIdAndBetStateNull(selection.getId());
         
@@ -108,9 +129,9 @@ public class BetService {
         
         
     }
-
+    
     private void payBet(Selection selection, Customer customer, Bet bet) {
-        customer.setBalance(customer.getBalance().add(bet.getMise().multiply(selection.getCurrentOdd())));
+        customer.setBalance(customer.getBalance().add(bet.getMise().multiply(selection.getCurrentOdd())));//Multiplication de la mise par la cote avant la sauvegarde en base
         bet.setBetState(BetState.WON);
         log.info("Victoire pour {} sur la séléction {}! montant gagné : {}", customer.getPseudo(), selection.getName(), bet.getMise().multiply(selection.getCurrentOdd()));
     }   
@@ -129,11 +150,24 @@ public class BetService {
     public List<Bet> getBetsByCustomerId(Long customerId){
         return betRepository.getByCustomer_idEquals(customerId);
     }
-
+    
+    
+    /** 
+     * 1. Récupération de toutes les sélections et du client
+     * 
+     * 2. choix d'une sélection au hasard
+     * 
+     * 3. création d'une requete de Pari avec des paramètre aléatoires
+     * 
+     * 4. lancement du process d'enregistrement du pari comme pour une requête via API
+     * 
+     * L'objectif de cette fonction est de simuler un pari d'un utilisateur avec 
+     * des paramètres valides ou non
+     */      
     public void betRandomly() {
         List<Selection> selections = selectionService.findAll();
-        Selection s = selections.get(Helpers.getRandomIndex(0, selections.size()));
         Customer customer = customerService.findCustomerByPseudo("unibest");
+        Selection s = selections.get(Helpers.getRandomIndex(0, selections.size()));
         
         BetRequest b = new BetRequest();
         b.setSelectionId(Helpers.getRandomIndex(0, 5) > 0 ? s.getId() : 3000);
