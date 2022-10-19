@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionHttpTranslator {
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity businessException(HttpServletRequest request, final CustomException e) {
-        return new ResponseEntity(new ExceptionDto().setErrormessage(e.getMessage()).setPath(request.getServletPath()), e.getException().getStatus());
+    public ResponseEntity businessException(String path, final CustomException e) {
+        return new ResponseEntity(new ExceptionDto().setErrormessage(e.getMessage()).setPath(path), e.getException().getStatus());
     }
 
 }

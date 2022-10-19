@@ -9,9 +9,11 @@ externalDocs:
   url: /*/*/*/*/*/readme.md
 tags:
   - name: events
-    description: Tout sur les events
+    description: Récupération des events par id et de leurs séléctions 
   - name: bets
-    description: Tout sur les paris
+    description: enregistrement des paris
+  - name: customer
+    description: Récupération des clients
 paths:
   /events:
     get:
@@ -109,7 +111,21 @@ paths:
           '456':
             description: Selection fermée
           '500':
-            description: Erreur serveur          
+            description: Erreur serveur       
+  /customer/current:
+    get:
+      tags:
+        - customer
+      summary: Renvoie le client courant
+      description: Récupère le client unibest
+      operationId: fetchCustomer
+      responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Customer'
 components:
   schemas:
     Event:

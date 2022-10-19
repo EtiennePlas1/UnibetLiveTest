@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kindredgroup.unibetlivetest.exception.CustomException;
+import com.kindredgroup.unibetlivetest.exception.ExceptionHttpTranslator;
 import com.kindredgroup.unibetlivetest.mapper.UnibetMapperService;
 import com.kindredgroup.unibetlivetest.service.EventService;
 import com.kindredgroup.unibetlivetest.v1.api.EventsApi;
@@ -31,6 +33,9 @@ public class EventApi implements EventsApi {
     @Resource
     private EventService eventService;
     
+    @Resource 
+    private ExceptionHttpTranslator translator;
+    
     @Resource
     private UnibetMapperService mapper; 
     
@@ -40,9 +45,9 @@ public class EventApi implements EventsApi {
             return Selections.isEmpty() ? new ResponseEntity<List<Selection>>(Selections,HttpStatus.NO_CONTENT) : new ResponseEntity<List<Selection>>(Selections, HttpStatus.OK);
         } catch (CustomException e) {
             log.error(e.getMessage());
-            return new ResponseEntity<>(e.getException().getStatus());            
-        } catch (Exception e2) {
-            log.error("erreur findSelectionsByEventId : {}", e2.getMessage());
+            return translator.businessException(ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath(), e);            
+        } catch (Exception e) {
+            log.error("erreur findSelectionsByEventId : {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

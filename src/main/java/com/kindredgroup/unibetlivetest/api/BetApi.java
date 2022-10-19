@@ -9,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kindredgroup.unibetlivetest.exception.CustomException;
+import com.kindredgroup.unibetlivetest.exception.ExceptionHttpTranslator;
 import com.kindredgroup.unibetlivetest.service.BetService;
-import com.kindredgroup.unibetlivetest.service.CustomerService;
 import com.kindredgroup.unibetlivetest.types.ExceptionType;
 import com.kindredgroup.unibetlivetest.v1.api.BetsApi;
 import com.kindredgroup.unibetlivetest.v1.model.BetRequest;
@@ -28,23 +29,26 @@ public class BetApi implements BetsApi {
     @Resource
     private BetService betService;
     
+    @Resource 
+    private ExceptionHttpTranslator translator;
+    
     public ResponseEntity<Void> addBet(BetRequest betRequest) {
         try {
-            if (betRequest.getMise().signum() == -1 || betRequest.getMise().signum() == 0) {
-                throw new CustomException(betRequest.getMise().signum() == 0 ? "La Mise est égale à 0" : "La Mise est négative", ExceptionType.MISE_IMPOSSIBLE);
+            if (betRequest.getMise().signum() == -1 || betRequest.getMise().signum() == 0 || betRequest.getMise() == null) {
+                throw new CustomException(betRequest.getMise().signum() == 0 ? "La mise est égale à 0" : betRequest.getMise().signum() == -1 ? "La mise est négative" : "La mise est null", ExceptionType.MISE_IMPOSSIBLE);
             }
 
-            if (betRequest.getCote().signum() == 0 || betRequest.getCote().compareTo(new BigDecimal(1)) == -1) {
-                throw new CustomException(betRequest.getCote().signum() == 0 ? "La cote est égale à 0" : "La cote est inférieure à 1", ExceptionType.COTE_IMPOSSIBLE);
-            }
+            if (betRequest.getCote().signum() == 0 || betRequest.getCote().compareTo(new BigDecimal(1)) == -1 || betRequest.getCote() == null) {
+                throw new CustomException(betRequest.getCote().signum() == 0 ? "La cote est égale à 0" : betRequest.getCote().compareTo(new BigDecimal(1)) == -1 ?"La cote est inférieure à 1" : "la cote est null", ExceptionType.COTE_IMPOSSIBLE);
+            }           
 
             betService.buildBet(betRequest);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (CustomException e) {
             log.error(e.getMessage());
-            return new ResponseEntity<>(e.getException().getStatus());
-        } catch (Exception e2) {
-            log.error(e2.getMessage());
+            return translator.businessException(ServletUriComponentsBuilder.fromCurrentRequestUri().build().getPath(), e);
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
