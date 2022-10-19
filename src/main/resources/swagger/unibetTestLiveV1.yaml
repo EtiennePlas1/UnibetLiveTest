@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: Unibet live test
+  description: |-
+    This is the technical specification of the Unibet live test application. You will find here the list of APIs that are used in the application as well as the client side data structure.
+  version: 1.0.0
+externalDocs:
+  description: Find out more about this app
+  url: /*/*/*/*/*/readme.md
+tags:
+  - name: events
+    description: Tout sur les events
+  - name: bets
+    description: Tout sur les paris
+paths:
+  /events:
+    get:
+      tags:
+        - events
+      summary: Récupère tous les événements de la base
+      operationId: getAllEvents
+      parameters:
+        - name: isLive
+          in: query
+          description: Filtrer uniquement sur les events live
+          required: false
+          explode: true
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Event'
+        '204':
+          description: pas de live
+        '400':
+          description: Request mal formée
+        '500':
+          description: Erreur serveur
+  /events/{id}/selections:
+    get:
+      tags:
+        - events
+      summary: Récupère toutes les sélections d'un événément
+      description: Add a new pet to the store
+      operationId: findSelectionsByEventId
+      parameters:
+        - name: id
+          in: path
+          description: "id de l'event"
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: state
+          required: false
+          schema:
+            $ref: '#/components/schemas/SelectionState'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Selection'
+        '204':
+          description: Pas de résultat
+        '400':
+          description: Request mal formée
+        '404':
+          description: Evénement introuvable
+        '500':
+          description: Erreur serveur
+  /bets/add:
+    post:
+      tags:
+          - bets
+      summary: Enregistre un pari
+      description: ajoute un nouveau pari sur une sélection donnée en body
+      operationId: addBet
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/betRequest'
+      responses:
+          '200':
+            description: OK - Pari enregistré
+          '204':
+            description: Pas de résultat
+          '400':
+            description: Request mal formée
+          '409':
+            description: Conflit, pari déjà en cours
+          '453': #modifié avec des http code disponibles selon la spec : https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+            description: Balance insuffisante
+          '454':
+            description: Changement de cote
+          '456':
+            description: Selection fermée
+          '500':
+            description: Erreur serveur          
+components:
+  schemas:
+    Event:
+      type: object
+      properties:      
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        markets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Market'
+    Market:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        selections:
+          type: array
+          items:
+            $ref: '#/components/schemas/Selection'
+    Selection:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        currentOdd:
+          type: number
+        state:
+          $ref: '#/components/schemas/SelectionState'
+        result:
+          $ref: '#/components/schemas/SelectionResult'
+    Bet:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        selections:
+          $ref: '#/components/schemas/Selection'
+        betState:
+          $ref: '#/components/schemas/BetState'
+        customer:
+          $ref: '#/components/schemas/Customer'
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        pseudo:
+          type: string
+        balance:
+          type: number
+        bets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bet'
+    BetState:
+      type: string
+      enum:
+        - WON
+        - LOST
+    SelectionResult:
+      type: string
+      enum:
+        - WON
+        - LOST
+    SelectionState:
+      type: string
+      enum:
+        - OPENED
+        - CLOSED
+    betRequest:
+      type: object
+      properties:
+        cote:
+          type: number
+        mise:
+          type: number
+        selectionId:
+          type: integer
+          format: int64

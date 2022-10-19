@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.kindredgroup</groupId>
+	<artifactId>unibet-live-test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>unibet-live-test</name>
+	<description>Petite application web de gestion d&apos;événements sportifs en direct</description>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-core -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-core</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable -->
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.3</version>
+		</dependency>
+
+		<!-- mapper-->
+		<dependency>
+			<groupId>fr.xebia.extras</groupId>
+			<artifactId>selma-processor</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- mapper -->
+		<dependency>
+			<groupId>fr.xebia.extras</groupId>
+			<artifactId>selma</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.12</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.2.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/swagger/unibetTestLiveV1.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+
+							<serverVariableOverrides />
+							<apiPackage>com.kindredgroup.unibetlivetest.v1.api</apiPackage>
+							<modelPackage>com.kindredgroup.unibetlivetest.v1.model</modelPackage>
+							<configOptions>
+								<dateLibrary>java.util.Date</dateLibrary>
+								<generateModels>false</generateModels>
+								<interfaceOnly>true</interfaceOnly>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
