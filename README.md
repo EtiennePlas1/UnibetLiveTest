@@ -1,2 +1,2 @@
 # UnibetLiveTest
-Projet test d'application de pari sportif
+Petite application web de gestion d'événements sportifs en direct
