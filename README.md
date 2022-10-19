@@ -10,7 +10,7 @@ Installation :
 - Installer Maven verion 3.X ou supérieure
 - A la racine du projet, lancer en ligne de commande : mvn spring-boot:run
 
-Se référer à la documentation API : http://localhost:8887/swagger-ui/index.html#/ pour le modèle de données et les requêtes disponibles.
+Au lancement, se référer à la documentation API : http://localhost:8887/swagger-ui/index.html#/ pour le modèle de données et les requêtes disponibles.
 
 Un batch de paris automatique est implémenté mais désactivé. Pour l'activer mettez la propriété betBatch = true dans le fichier application.properties.
 
