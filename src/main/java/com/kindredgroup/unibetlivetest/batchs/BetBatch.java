@@ -35,8 +35,8 @@ public class BetBatch {
             betService.betRandomly();
         } catch (CustomException e) {
             log.error("Erreur lors du batch de pari : {}", e.getMessage());
-        } catch (Exception e2) {
-            log.error("Erreur lors du batch de pari : {}", e2.getMessage());            
+        } catch (Exception e) {
+            log.error("Erreur lors du batch de pari : {}", e.getMessage());            
         }
     }
 

@@ -25,7 +25,7 @@ public class MarketService {
      *    
      * 2. paiement des paris par sélection
      */
-    public int processAllClosedSelections() {
+    public int processAllClosedSelectionsWithBets() {
         List<Selection> closedSelections = selectionService.getClosedSelectionsWithBets();        
         closedSelections.forEach(s -> betService.payBets(s));
         
