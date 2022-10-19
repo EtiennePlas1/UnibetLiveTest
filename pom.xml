@@ -13,7 +13,7 @@
 	<name>unibet-live-test</name>
 	<description>Petite application web de gestion d&apos;événements sportifs en direct</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>16</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
