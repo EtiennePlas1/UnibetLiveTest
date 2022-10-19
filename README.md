@@ -9,8 +9,8 @@ Installation :
 - Installer le JDK 16 ou version plus récente 
 - Installer Maven verion 3.X ou supérieure
 - A la racine du projet, lancer en ligne de commande :
-      - Compiler l'application : mvn install
-      - Compiler et lancer l'application : mvn spring-boot:run
+- Compiler l'application : mvn install
+- Compiler et lancer l'application : mvn spring-boot:run
 
 Au lancement, se référer à la documentation API : http://localhost:8887/swagger-ui/index.html#/ pour le modèle de données et les requêtes disponibles.
 
