@@ -158,12 +158,15 @@ public class BetService {
      * 
      * 2. choix d'une sélection au hasard
      * 
-     * 3. création d'une requete de Pari avec des paramètre aléatoires
+     * 3. création d'une requete de Pari avec des paramètre 
+     *    aléatoires
      * 
-     * 4. lancement du process d'enregistrement du pari comme pour une requête via API
+     * 4. lancement du process d'enregistrement du pari 
+     *    comme pour une requête via API
      * 
-     * L'objectif de cette fonction est de simuler un pari d'un utilisateur avec 
-     * des paramètres valides ou non
+     *  L'objectif de cette fonction est de simuler un pari 
+     *  d'un utilisateur avec des paramètres aléatoirement 
+     *  valides ou non  
      */      
     public void betRandomly() {
         List<Selection> selections = selectionService.findAll();
@@ -171,9 +174,9 @@ public class BetService {
         Selection s = selections.get(Helpers.getRandomIndex(0, selections.size()));
         
         BetRequest b = new BetRequest();
-        b.setSelectionId(Helpers.getRandomIndex(0, 5) > 0 ? s.getId() : 3000);//devrait parfois déclencher SELECTION_NOT_FOUND
-        b.setMise(Helpers.getRandomIndex(0, 5) > 0 ? customer.getBalance().divide(new BigDecimal(3),2,RoundingMode.HALF_UP) : new BigDecimal(51));//devrait parfois déclencher BALANCE_INSUFFISANTE
-        b.setCote(Helpers.getRandomIndex(0, 5) > 0 ? s.getCurrentOdd() : new BigDecimal(0));////devrait parfois déclencher CHANGEMENT_DE_COTE
+        b.setSelectionId(Helpers.getRandomIndex(0, 5) > 0 ? s.getId() : 3000);//test SELECTION_NOT_FOUND
+        b.setMise(Helpers.getRandomIndex(0, 5) > 0 ? customer.getBalance().divide(new BigDecimal(3),2,RoundingMode.HALF_UP) : new BigDecimal(51));//test BALANCE_INSUFFISANTE
+        b.setCote(Helpers.getRandomIndex(0, 5) > 0 ? s.getCurrentOdd() : new BigDecimal(0));////test CHANGEMENT_DE_COTE
         
         buildBet(b);
     }

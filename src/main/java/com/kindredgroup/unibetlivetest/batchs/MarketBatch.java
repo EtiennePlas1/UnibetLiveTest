@@ -21,15 +21,21 @@ public class MarketBatch {
     @Resource
     private MarketService marketService;
     
-    //Récupération et traitement de tous les paris ouverts sur toutes les séléctions fermées 
+    /** 
+     * Récupération et traitement de tous les paris 
+     * ouverts sur toutes les séléctions fermées.
+     * 
+     * Utilisation d'une stopWatch pour mesurer le
+     * temps d'exécution et le logger    
+     */ 
     @Scheduled(fixedRate = 5000)    
     void payBetsBatch() {
         try {
-            StopWatch stopWatch = new StopWatch();
+            StopWatch stopWatch = new StopWatch("payBetsBatch");
             stopWatch.start();
             int betsProcessed = marketService.processAllClosedSelectionsWithBets();
             stopWatch.stop();
-        	log.info("{} paris payés en {} ms", betsProcessed, stopWatch.getTotalTimeMillis());
+        	log.info("{} paris payés. {} ", betsProcessed, stopWatch.shortSummary());
         } catch (Exception e) {
             log.error("Erreur lors du batch de paiement des paris : {}", e.getMessage());            
         }
