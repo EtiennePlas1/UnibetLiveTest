@@ -17,8 +17,8 @@ Lancer en ligne de commande :
 
 Via Eclipse :
 
-- File -> Import -> Existing Maven projects -> Browse (ajouter la racine du projet cloné)
-- Help -> install new software -> copier coller l'url https://projectlombok.org/p2 dans le champ "work with" -> Add... -> cocher le projet "Lombok -> Finish
+- File -> Import -> Existing Maven projects -> Browse (ajouter le dossier racine du projet cloné)
+- Help -> install new software -> copier coller l'url https://projectlombok.org/p2 dans le champ "work with" -> Add... -> cocher le projet "Lombok" -> Finish
 - Compiler : clic droit sur le dossier du projet -> Run as -> Maven install
 - Lancer l'application : clic droit sur le dossier du projet -> Run as -> Java application
 
