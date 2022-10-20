@@ -117,6 +117,7 @@ public class BetService {
             } else {
                 b.setBetState(BetState.LOST);
                 log.info("Défaite pour {} sur la sélection {}", c.getPseudo(), selection.getName());
+                
                 try {
                     saveBet(b);
                 } catch (Exception e) {
