@@ -11,6 +11,9 @@ import com.kindredgroup.unibetlivetest.types.SelectionState;
 
 import fr.xebia.extras.selma.IgnoreMissing;
 
+/** 
+ * Interface de mapping des objets DTO et DAO
+ */ 
 @Mapper(withIgnoreMissing = IgnoreMissing.ALL)
 public interface UnibetMapper {
 

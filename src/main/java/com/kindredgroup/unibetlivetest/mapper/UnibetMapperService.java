@@ -11,6 +11,9 @@ import com.kindredgroup.unibetlivetest.v1.model.Selection;
 
 import fr.xebia.extras.selma.Selma;
 
+/** 
+ * Implémentation interface mapping objets DTO DAO
+ */ 
 @Service
 public class UnibetMapperService implements UnibetMapper {
 
