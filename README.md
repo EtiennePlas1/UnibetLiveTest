@@ -12,8 +12,8 @@ Installation :
 Lancer en ligne de commande :
 
 - A la racine du projet, lancer en ligne de commande :
-- Compiler l'application : ```bash mvn install ```
-- Compiler et lancer l'application : ```bash mvn spring-boot:run ```
+- Compiler l'application : ``` mvn install ```
+- Compiler et lancer l'application : ``` mvn spring-boot:run ```
 
 Via Eclipse :
 
