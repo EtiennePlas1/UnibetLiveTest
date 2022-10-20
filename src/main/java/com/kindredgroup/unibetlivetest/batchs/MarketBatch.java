@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import com.kindredgroup.unibetlivetest.service.MarketService;
 
@@ -22,9 +23,13 @@ public class MarketBatch {
     
     //Récupération et traitement de tous les paris ouverts sur toutes les séléctions fermées 
     @Scheduled(fixedRate = 5000)    
-    void payBetsBatch() {        
+    void payBetsBatch() {
         try {
-        	log.info("paris payés sur {} sélections", marketService.processAllClosedSelectionsWithBets());
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
+            int betsProcessed = marketService.processAllClosedSelectionsWithBets();
+            stopWatch.stop();
+        	log.info("{} paris payés en {} ms", betsProcessed, stopWatch.getTotalTimeMillis());
         } catch (Exception e) {
             log.error("Erreur lors du batch de paiement des paris : {}", e.getMessage());            
         }

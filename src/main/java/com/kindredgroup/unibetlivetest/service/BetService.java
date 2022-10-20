@@ -99,7 +99,7 @@ public class BetService {
      * 4. Sauvegarde de la paire client-pari en cas de victoire
      * 	  ou uniquement du pari en cas de défaite
      */    
-    public void payBets(Selection selection) {
+    public int payBets(Selection selection) {
         List<Bet> unpaidBets = betRepository.getBySelectionIdAndBetStateNull(selection.getId());
         
         Map<Customer,Bet> customerIdToBet = unpaidBets.stream().collect(Collectors.toMap(Bet::getCustomer, b->b));
@@ -127,13 +127,14 @@ public class BetService {
             
         });
         
+        return unpaidBets.size();
         
     }
     
     private void payBet(Selection selection, Customer customer, Bet bet) {
         customer.setBalance(customer.getBalance().add(bet.getMise().multiply(selection.getCurrentOdd())));//Multiplication de la mise par la cote avant la sauvegarde en base
         bet.setBetState(BetState.WON);
-        log.info("Victoire pour {} sur la séléction {}! montant gagné : {}", customer.getPseudo(), selection.getName(), bet.getMise().multiply(selection.getCurrentOdd()));
+        log.info("Victoire pour {} sur la séléction {}, montant gagné : {}", customer.getPseudo(), selection.getName(), bet.getMise().multiply(selection.getCurrentOdd()));
     }   
     
     @Transactional
