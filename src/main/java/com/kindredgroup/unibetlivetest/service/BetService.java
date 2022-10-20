@@ -166,13 +166,13 @@ public class BetService {
      */      
     public void betRandomly() {
         List<Selection> selections = selectionService.findAll();
-        Customer customer = customerService.findCustomerByPseudo("unibest");
+        Customer customer = customerService.findCustomerByPseudo("unibest");//inclure les selections fermées permet de tester l'exception SELECTION_FERMEE
         Selection s = selections.get(Helpers.getRandomIndex(0, selections.size()));
         
         BetRequest b = new BetRequest();
-        b.setSelectionId(Helpers.getRandomIndex(0, 5) > 0 ? s.getId() : 3000);
-        b.setMise(Helpers.getRandomIndex(0, 5) > 0 ? customer.getBalance().divide(new BigDecimal(3),2,RoundingMode.HALF_UP) : new BigDecimal(51));
-        b.setCote(Helpers.getRandomIndex(0, 5) > 0 ? s.getCurrentOdd() : new BigDecimal(0));
+        b.setSelectionId(Helpers.getRandomIndex(0, 5) > 0 ? s.getId() : 3000);//devrait parfois déclencher SELECTION_NOT_FOUND
+        b.setMise(Helpers.getRandomIndex(0, 5) > 0 ? customer.getBalance().divide(new BigDecimal(3),2,RoundingMode.HALF_UP) : new BigDecimal(51));//devrait parfois déclencher BALANCE_INSUFFISANTE
+        b.setCote(Helpers.getRandomIndex(0, 5) > 0 ? s.getCurrentOdd() : new BigDecimal(0));////devrait parfois déclencher CHANGEMENT_DE_COTE
         
         buildBet(b);
     }
