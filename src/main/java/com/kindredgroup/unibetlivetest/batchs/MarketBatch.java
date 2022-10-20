@@ -16,7 +16,6 @@ import com.kindredgroup.unibetlivetest.service.MarketService;
 @Log4j2
 @RequiredArgsConstructor
 public class MarketBatch {
-
     
     @Resource
     private MarketService marketService;
@@ -26,9 +25,12 @@ public class MarketBatch {
      * ouverts sur toutes les séléctions fermées.
      * 
      * Utilisation d'une stopWatch pour mesurer le
-     * temps d'exécution et le logger    
+     * temps d'exécution et le logger
+     * 
+     * batchInterval : intervalle en ms entre 2 
+     * exécutions du Batch, défault = 5000
      */ 
-    @Scheduled(fixedRate = 5000)    
+    @Scheduled(fixedRateString = "${batchInterval}")    
     void payBetsBatch() {
         try {
             StopWatch stopWatch = new StopWatch("payBetsBatch");
