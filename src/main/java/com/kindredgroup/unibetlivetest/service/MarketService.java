@@ -6,9 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.kindredgroup.unibetlivetest.entity.Market;
 import com.kindredgroup.unibetlivetest.entity.Selection;
-import com.kindredgroup.unibetlivetest.repository.MarketRepository;
 
 @Service
 public class MarketService {

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import static java.lang.String.format;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.annotation.Resource;

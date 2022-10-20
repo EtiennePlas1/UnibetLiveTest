@@ -12,7 +12,6 @@ import static java.lang.String.format;
 
 import javax.annotation.Resource;
 
-@Log4j2
 @Service
 @RequiredArgsConstructor
 public class CustomerService {

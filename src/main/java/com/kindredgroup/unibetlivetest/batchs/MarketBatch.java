@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.kindredgroup.unibetlivetest.exception.CustomException;
 import com.kindredgroup.unibetlivetest.service.MarketService;
 
 @Component
