@@ -7,7 +7,6 @@ import com.kindredgroup.unibetlivetest.types.ExceptionType;
 import com.kindredgroup.unibetlivetest.types.SelectionState;
 import com.kindredgroup.unibetlivetest.utils.Helpers;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
@@ -19,7 +18,6 @@ import javax.annotation.Resource;
 
 @RequiredArgsConstructor
 @Component
-@Log4j2
 public class SelectionService {
 
     @Resource

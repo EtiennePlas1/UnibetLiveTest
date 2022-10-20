@@ -5,7 +5,6 @@ import com.kindredgroup.unibetlivetest.exception.CustomException;
 import com.kindredgroup.unibetlivetest.repository.CustomerRepository;
 import com.kindredgroup.unibetlivetest.types.ExceptionType;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
